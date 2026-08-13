@@ -2,11 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AR Bangun Ruang - Beranda</title>
     <style>
         body, html { margin: 0; padding: 0; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; background-color: transparent !important; }
@@ -125,31 +121,5 @@
         </div>
     </div>
 
-    <script>
-        // ===== LAYAR PENUH: sembunyikan bilah alamat & ikon browser (potret & landscape) =====
-        // Aturan browser: fullscreen HANYA boleh dipicu oleh sentuhan pengguna.
-        // Setiap sentuhan akan mencoba lagi sampai berhasil (tidak menyerah setelah 1x).
-        (function() {
-            function sudahPenuh() {
-                return document.fullscreenElement || document.webkitFullscreenElement ||
-                       document.mozFullScreenElement || document.msFullscreenElement;
-            }
-            function mintaLayarPenuh() {
-                if (sudahPenuh()) return;
-                var el = document.documentElement;
-                var req = el.requestFullscreen || el.webkitRequestFullscreen ||
-                          el.mozRequestFullScreen || el.msRequestFullscreen;
-                if (req) {
-                    try {
-                        var p = req.call(el);
-                        if (p && p.catch) { p.catch(function() {}); }
-                    } catch (e) {}
-                }
-            }
-            ['click', 'touchend'].forEach(function(ev) {
-                document.addEventListener(ev, mintaLayarPenuh, true);
-            });
-        })();
-    </script>
 </body>
 </html>

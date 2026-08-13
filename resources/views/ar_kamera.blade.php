@@ -65,6 +65,28 @@
                 font-size: 15px;
                 font-weight: 900;
             }
+
+            /* ===== PANEL RUMUS di landscape HP: PAS 1 LAYAR, TANPA scroll atas-bawah ===== */
+            #panel-rumus { padding: 6px 14px; overflow: hidden; }   /* overflow hidden = tidak bisa digeser */
+            .rumus-content {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+                height: 100%;          /* tepat setinggi layar, tidak memanjang */
+                overflow: hidden;
+                padding-bottom: 0;
+            }
+            .kiri-keterangan { margin: 0; width: auto; max-width: 40%; flex-shrink: 1; }
+            .kiri-keterangan img { width: 74px !important; height: 74px !important; margin-bottom: 5px !important; padding: 5px !important; border-width: 3px !important; }
+            .kiri-keterangan p { font-size: 12px !important; padding: 6px 8px !important; margin-bottom: 5px; line-height: 1.35; }
+            .kiri-keterangan p:first-of-type { font-size: 16px !important; margin-bottom: 4px; }
+            #wadah-rumus { width: auto !important; max-width: 58% !important; }
+            .kotak-rumus { min-width: 0; width: 100%; font-size: 13px; padding: 8px 12px; margin-bottom: 8px; box-sizing: border-box; }
+            .kotak-rumus:last-child { margin-bottom: 0; }
+            .kotak-rumus span { font-size: 15px; margin-top: 3px; }
+            #btn-tutup-rumus { bottom: 8px !important; right: 8px !important; padding: 7px 20px; font-size: 13px; min-width: 0; }
         }
     </style>
 </head>
@@ -293,6 +315,17 @@
             if (sceneEl.hasLoaded) simpanSemuaMaterialAsli();
             else sceneEl.addEventListener('loaded', simpanSemuaMaterialAsli);
 
+            // ===== TAMPILAN DEFAULT: SOLID BERWARNA-WARNI (jaring dalam kondisi TERLIPAT) =====
+            // Bangun padat polos (objek-padat) disembunyikan; yang tampil adalah jaring yang
+            // terlipat rapat sehingga warnanya sama persis dengan saat tombol Jaring diklik.
+            function tampilkanSolidBerwarna() {
+                document.querySelectorAll('.objek-jaring .engsel').forEach(p => p.setAttribute('rotation', p.getAttribute('data-tutup')));
+                document.querySelectorAll('.objek-padat').forEach(el => el.setAttribute('visible', 'false'));
+                document.querySelectorAll('.objek-jaring').forEach(el => el.setAttribute('visible', 'true'));
+            }
+            if (sceneEl.hasLoaded) tampilkanSolidBerwarna();
+            else sceneEl.addEventListener('loaded', tampilkanSolidBerwarna);
+
             // KEMBALIKAN WARNA ASLI (matikan wireframe & buang warna #333 dari mode Rusuk)
             function pulihkanMaterial(el) {
                 const dasar = el.dataset.matAsli || 'color: #ffffff; opacity: 1; side: front';
@@ -443,13 +476,11 @@
                     isRusukAktif = true;
                     btnRusuk.innerText = "3D Semula";
                 } else {
-                    // ---- KEMBALIKAN KE 3D SEMULA ----
+                    // ---- KEMBALIKAN KE SOLID BERWARNA-WARNI (jaring terlipat) ----
                     document.querySelectorAll('.huruf-sudut').forEach(huruf => huruf.setAttribute('visible', 'false'));
-                    document.querySelectorAll('.objek-jaring').forEach(el => el.setAttribute('visible', 'false'));
-                    document.querySelectorAll('.objek-padat').forEach(el => {
-                        el.setAttribute('visible', 'true');
-                        pulihkanMaterial(el);
-                    });
+                    document.querySelectorAll('.objek-padat').forEach(el => el.setAttribute('visible', 'false'));
+                    document.querySelectorAll('.objek-jaring .engsel').forEach(p => p.setAttribute('rotation', p.getAttribute('data-tutup')));
+                    document.querySelectorAll('.objek-jaring').forEach(el => el.setAttribute('visible', 'true'));
                     document.querySelectorAll('.objek-biasa').forEach(el => {
                         el.removeAttribute('animation');
                         if(el.tagName.toLowerCase() !== 'a-plane') el.setAttribute('rotation', '0 0 0');
@@ -519,15 +550,9 @@
                         });
                     });
 
-                    setTimeout(() => {
-                        if(!isJaringTerbuka) {
-                            document.querySelectorAll('.objek-jaring').forEach(el => el.setAttribute('visible', 'false'));
-                            document.querySelectorAll('.objek-padat').forEach(el => {
-                                el.setAttribute('visible', 'true');
-                                pulihkanMaterial(el);
-                            });
-                        }
-                    }, 2500);
+                    // Setelah animasi menutup selesai, biarkan jaring tetap tampil dalam
+                    // kondisi TERLIPAT -> inilah "solid berwarna-warni" kita. Tidak lagi
+                    // ditukar dengan objek-padat yang warnanya polos.
 
                     isJaringTerbuka = false;
                     btnJaring.innerText = "Buka Jaring";

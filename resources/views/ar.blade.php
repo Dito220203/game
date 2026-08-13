@@ -284,7 +284,7 @@
 
             // 1: BALOK
             1 => '
-            <a-entity class="grup-bangun" position="0 0 0.2">
+            <a-entity class="grup-bangun" position="0 0 0.2" rotation="90 0 0">
                 <a-box class="objek-padat" position="0 0 0" width="0.8" height="0.4" depth="0.4" material="color: #00BFFF; opacity: 1;"></a-box>
                 <a-entity class="objek-jaring" visible="false" position="0 -0.2 0" rotation="-90 0 0">
                     <a-plane position="0 0 0" width="0.8" height="0.4" material="color: #4C51F7; side: double;"></a-plane>
@@ -303,7 +303,7 @@
 
             // 3: KUBUS
             3 => '
-            <a-entity class="grup-bangun" position="0 0 0.25">
+            <a-entity class="grup-bangun" position="0 0 0.25" rotation="90 0 0">
                 <a-box class="objek-padat" position="0 0 0" width="0.5" height="0.5" depth="0.5" material="color: #32CD32; opacity: 1;"></a-box>
                 <a-entity class="objek-jaring" visible="false" position="0 -0.25 0" rotation="-90 0 0">
                     <a-plane position="0 0 0" width="0.5" height="0.5" material="color: #4C51F7; side: double;"></a-plane>
@@ -320,7 +320,7 @@
 
             // 4: LIMAS SEGIEMPAT
             4 => '
-            <a-entity class="grup-bangun" position="0 0 0.4">
+            <a-entity class="grup-bangun" position="0 0 0.3" rotation="90 0 0">
                 <a-cone class="objek-padat" position="0 0 0" radius-bottom="0.4" height="0.6" segments-radial="4" rotation="0 45 0" material="color: #8A2BE2; opacity: 1;"></a-cone>
                 <a-entity class="objek-jaring" visible="false" position="0 -0.3 0" rotation="-90 0 0">
                     <a-plane position="0 0 0" width="0.56" height="0.56" material="color: #4C51F7; side: double;"></a-plane>
@@ -334,7 +334,7 @@
 
             // 5: LIMAS SEGITIGA
             5 => '
-            <a-entity class="grup-bangun" position="0 0 0.4">
+            <a-entity class="grup-bangun" position="0 0 0.3" rotation="90 0 0">
                 <a-cone class="objek-padat" position="0 0 0" radius-bottom="0.4" height="0.6" segments-radial="3" material="color: #FFA500; opacity: 1;"></a-cone>
                 <a-entity class="objek-jaring" visible="false" position="0 -0.3 0" rotation="-90 0 0">
                     <a-triangle vertex-a="0 0.4 0" vertex-b="-0.346 -0.2 0" vertex-c="0.346 -0.2 0" material="color: #4C51F7; side: double;"></a-triangle>
@@ -349,7 +349,7 @@
             // Urutan BUKA : tutup atas melipat rata dulu (delay 0), lalu ke-6 sisi turun bersamaan (delay 800).
             // Urutan TUTUP: ke-6 sisi berdiri dulu (delay 0), lalu tutup atas mengunci (delay 800).
             6 => '
-            <a-entity class="grup-bangun" position="0 0 0.4">
+            <a-entity class="grup-bangun" position="0 0 0.3" rotation="90 0 0">
                 <a-cylinder class="objek-padat" position="0 0 0" radius="0.4" height="0.6" segments-radial="6" material="color: #FF69B4; opacity: 1;"></a-cylinder>
                 <a-entity class="objek-jaring" visible="false" position="0 -0.3 0" rotation="-90 0 0">
                     <a-circle radius="0.4" segments="6" rotation="0 0 30" material="color: #4C51F7; side: double;"></a-circle>
@@ -370,7 +370,7 @@
 
             // 7: PRISMA SEGITIGA
             7 => '
-            <a-entity class="grup-bangun" position="0 0 0.4">
+            <a-entity class="grup-bangun" position="0 0 0.3" rotation="90 0 0">
                 <a-cylinder class="objek-padat" position="0 0 0" radius="0.4" height="0.6" segments-radial="3" rotation="0 -30 0" material="color: #00CED1; opacity: 1;"></a-cylinder>
                 <a-entity class="objek-jaring" visible="false" position="0 -0.3 0" rotation="-90 0 0">
                     <a-plane position="0 0 0" width="0.7" height="0.6" material="color: #4C51F7; side: double;"></a-plane>
@@ -382,7 +382,7 @@
             </a-entity>
             ',
 
-            8 => '<a-cylinder class="objek-biasa" position="0 0 0.3" radius="0.3" height="0.6" material="color: #FFD700; opacity: 1;"></a-cylinder>',
+            8 => '<a-entity class="grup-bangun" position="0 0 0.3" rotation="90 0 0"><a-cylinder class="objek-biasa" position="0 0 0" radius="0.3" height="0.6" material="color: #FFD700; opacity: 1;"></a-cylinder></a-entity>',
             9 => '<a-plane class="objek-biasa" position="0 0 0" width="0.8" height="0.5" material="color: #DAA520; side: double;"></a-plane>',
             10 => '<a-plane class="objek-biasa" position="0 0 0" width="0.5" height="0.5" rotation="0 0 45" material="color: #32CD32; side: double;"></a-plane>',
             11 => '<a-plane class="objek-biasa" position="0 0 0" width="0.4" height="0.7" rotation="0 0 45" material="color: #9370DB; side: double;"></a-plane>',

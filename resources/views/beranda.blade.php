@@ -2,7 +2,11 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
     <title>AR Bangun Ruang - Beranda</title>
     <style>
         body, html { margin: 0; padding: 0; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; background-color: transparent !important; }
@@ -121,5 +125,21 @@
         </div>
     </div>
 
+    <script>
+        // ===== LAYAR PENUH: sembunyikan bilah alamat & ikon browser (potret & landscape) =====
+        // Aturan browser: fullscreen hanya boleh dipicu oleh sentuhan pengguna,
+        // jadi begitu layar disentuh/diklik sekali, bilah alamat langsung hilang.
+        (function() {
+            function mintaLayarPenuh() {
+                var el = document.documentElement;
+                var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+                if (req) { try { req.call(el); } catch (e) {} }
+                document.removeEventListener('click', mintaLayarPenuh);
+                document.removeEventListener('touchend', mintaLayarPenuh);
+            }
+            document.addEventListener('click', mintaLayarPenuh);
+            document.addEventListener('touchend', mintaLayarPenuh);
+        })();
+    </script>
 </body>
 </html>

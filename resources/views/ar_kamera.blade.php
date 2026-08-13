@@ -320,15 +320,50 @@
             });
 
             // 2. SISTEM SUARA AI & NOTIFIKASI
+            // --- Siapkan daftar suara lebih dulu. Browser memuat suara secara ASINKRON,
+            //     jadi tanpa ini panggilan pertama saat klik Rumus sering "telat/tidak bunyi". ---
+            let suaraTerpilih = null;
+            function muatSuara() {
+                if (!('speechSynthesis' in window)) return;
+                const daftar = window.speechSynthesis.getVoices();
+                if (!daftar || !daftar.length) return;
+                suaraTerpilih = daftar.find(v => /id[-_]?ID/i.test(v.lang))
+                             || daftar.find(v => /^id/i.test(v.lang))
+                             || suaraTerpilih;
+            }
+            if ('speechSynthesis' in window) {
+                muatSuara();
+                window.speechSynthesis.onvoiceschanged = muatSuara;
+                // "Pemanasan" mesin suara pada interaksi pertama pengguna
+                const panaskanSuara = () => {
+                    try {
+                        muatSuara();
+                        const diam = new SpeechSynthesisUtterance(' ');
+                        diam.volume = 0;
+                        window.speechSynthesis.speak(diam);
+                    } catch(e) {}
+                };
+                document.addEventListener('click', panaskanSuara, { once: true });
+                document.addEventListener('touchstart', panaskanSuara, { once: true });
+            }
+
             function mainkanSuaraAI(teksSpelled) {
-                window.speechSynthesis.cancel();
+                if (!('speechSynthesis' in window)) return;
+                const sintesis = window.speechSynthesis;
+                sintesis.cancel();                 // bersihkan antrian lama
+                if (!suaraTerpilih) muatSuara();   // coba muat lagi kalau belum siap
+
                 let suaraRobot = new SpeechSynthesisUtterance(teksSpelled);
                 suaraRobot.lang = 'id-ID';
                 suaraRobot.rate = 0.9;
                 suaraRobot.pitch = 1.2;
+                if (suaraTerpilih) suaraRobot.voice = suaraTerpilih;
                 musikLatar.volume = 0.2;
                 suaraRobot.onend = function() { musikLatar.volume = 1.0; };
-                window.speechSynthesis.speak(suaraRobot);
+                suaraRobot.onerror = function() { musikLatar.volume = 1.0; };
+
+                sintesis.speak(suaraRobot);
+                try { sintesis.resume(); } catch(e) {}   // atasi bug Chrome yang kadang "pause"
             }
 
             function hentikanSuaraAI() {

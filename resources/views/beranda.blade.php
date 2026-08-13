@@ -127,18 +127,28 @@
 
     <script>
         // ===== LAYAR PENUH: sembunyikan bilah alamat & ikon browser (potret & landscape) =====
-        // Aturan browser: fullscreen hanya boleh dipicu oleh sentuhan pengguna,
-        // jadi begitu layar disentuh/diklik sekali, bilah alamat langsung hilang.
+        // Aturan browser: fullscreen HANYA boleh dipicu oleh sentuhan pengguna.
+        // Setiap sentuhan akan mencoba lagi sampai berhasil (tidak menyerah setelah 1x).
         (function() {
-            function mintaLayarPenuh() {
-                var el = document.documentElement;
-                var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-                if (req) { try { req.call(el); } catch (e) {} }
-                document.removeEventListener('click', mintaLayarPenuh);
-                document.removeEventListener('touchend', mintaLayarPenuh);
+            function sudahPenuh() {
+                return document.fullscreenElement || document.webkitFullscreenElement ||
+                       document.mozFullScreenElement || document.msFullscreenElement;
             }
-            document.addEventListener('click', mintaLayarPenuh);
-            document.addEventListener('touchend', mintaLayarPenuh);
+            function mintaLayarPenuh() {
+                if (sudahPenuh()) return;
+                var el = document.documentElement;
+                var req = el.requestFullscreen || el.webkitRequestFullscreen ||
+                          el.mozRequestFullScreen || el.msRequestFullscreen;
+                if (req) {
+                    try {
+                        var p = req.call(el);
+                        if (p && p.catch) { p.catch(function() {}); }
+                    } catch (e) {}
+                }
+            }
+            ['click', 'touchend'].forEach(function(ev) {
+                document.addEventListener(ev, mintaLayarPenuh, true);
+            });
         })();
     </script>
 </body>
